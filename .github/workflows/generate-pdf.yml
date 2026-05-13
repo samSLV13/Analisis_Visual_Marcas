@@ -6,6 +6,9 @@ on:
     paths:
       - 'reports/analisis_visual_marcas.md'
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -19,8 +22,8 @@ jobs:
         run: |
           mkdir -p reports
           pandoc reports/analisis_visual_marcas.md -o reports/analisis_visual_marcas.pdf --pdf-engine=wkhtmltopdf
-      - name: Commit generated PDF
-        uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Upload PDF as artifact
+        uses: actions/upload-artifact@v4
         with:
-          commit_message: "Add generated PDF report"
-          file_pattern: "reports/analisis_visual_marcas.pdf"
+          name: analisis_visual_marcas.pdf
+          path: reports/analisis_visual_marcas.pdf
